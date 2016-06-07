@@ -1,0 +1,207 @@
+---
+title: "Homework4"
+author: "Paola Leon"
+date: "June 6, 2016"
+output: html_document
+---
+Instructions:
+Write bootstrap code to illustrate the central limit theorem in R markdown and push the result to GitHub. Use a normal distribution with two different sample sizes and an exponential distribution with two different sample sizes. Correct code alone is insufficient. Please also comment on the code and explain the results. For help, see the lotsa.medians function in unit 2. The deliverable is a link to a GitHub repo containing the code.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Central Limit Theorem
+
+If we add values drawn from normal distributions, the distribution of the sum is normal. Most other distributions don’t have this property; if we add values drawn from other distributions, the sum does not generally have an analytic distribution.
+But if we add up n values from almost any distribution, the distribution of the sum converges to normal as n increases.
+More specifically, if the distribution of the values has mean and standard deviation μ and σ, the distribution of the sum is approximately  .
+This result is the Central Limit Theorem (CLT). It is one of the most useful tools for statistical analysis, but it comes with caveats:
+The values have to be drawn independently. If they are correlated, the CLT doesn’t apply (although this is seldom a problem in practice).
+The values have to come from the same distribution (although this requirement can be relaxed).
+The values have to be drawn from a distribution with finite mean and variance. So most Pareto distributions are out.
+The rate of convergence depends on the skewness of the distribution. Sums from an exponential distribution converge for small n. Sums from a lognormal distribution require larger sizes.
+Downey Allen, Think Stats, 2nd Edition, O’Reillly Media, Inc. October 28, 2015
+
+
+## bootstrap code
+
+##Normal distribution. Size 100
+
+1. Generate original sample from a normal distribution. Size 100
+
+```{r}
+x <- rnorm(100, 22, 5)
+x
+```
+
+2. Define length for bootstrap sample.
+```{r}
+blength <- 1000
+blength
+```
+
+3. Create array for bootstrap sample. Notice it is first empty.
+```{r}
+barray <- numeric(blength)
+barray
+```
+
+4. Generate bootstrap sample data. Calculate each bootstrap sample mean and store in bootstrap array.
+```{r}
+for(i in 1:blength) {
+barray[i] <- mean(sample(x, 100, replace=TRUE))
+}
+barray
+```
+
+5. Demonstrate the Central Limit Theorem:
+a) Mean:
+We observe the mean of the bootstrap is very close to the mean of the original sample being 22.
+
+```{r}
+summary(barray)
+hist(barray)
+```
+
+b) Standard Deviation
+We observe the sd of the bootstrap is very close to the sd of the original sample divided by the sqrt of the sample size.
+```{r}
+sd(x)/sqrt(100)
+sd(barray)
+```
+
+##Normal distribution. Size 200
+
+1. Generate original sample from a normal distribution. Size 200
+
+```{r}
+x <- rnorm(200, 22, 5)
+x
+```
+
+2. Define length for bootstrap sample.
+```{r}
+blength <- 1000
+blength
+```
+
+3. Create array for bootstrap sample. Notice it is first empty.
+```{r}
+barray <- numeric(blength)
+barray
+```
+
+4. Generate bootstrap sample data. Calculate each bootstrap sample mean and store in bootstrap array.
+```{r}
+for(i in 1:blength) {
+barray[i] <- mean(sample(x, 200, replace=TRUE))
+}
+barray
+```
+
+5. Demonstrate the Central Limit Theorem:
+a) Mean:
+We observe the mean of the bootstrap is very close to the mean of the original sample being 22.
+
+```{r}
+summary(barray)
+hist(barray)
+```
+
+b) Standard Deviation
+We observe the sd of the bootstrap is very close to the sd of the original sample divided by the sqrt of the sample size.
+```{r}
+sd(x)/sqrt(200)
+sd(barray)
+```
+
+##Exponential distribution. Size 100
+
+1. Generate original sample from a normal distribution. Size 100
+
+```{r}
+x <- rexp(100, 1)
+x
+```
+
+2. Define length for bootstrap sample.
+```{r}
+blength <- 1000
+blength
+```
+
+3. Create array for bootstrap sample. Notice it is first empty.
+```{r}
+barray <- numeric(blength)
+barray
+```
+
+4. Generate bootstrap sample data. Calculate each bootstrap sample mean and store in bootstrap array.
+```{r}
+for(i in 1:blength) {
+barray[i] <- mean(sample(x, 100, replace=TRUE))
+}
+barray
+```
+
+5. Demonstrate the Central Limit Theorem:
+a) Mean:
+We observe the mean of the bootstrap is NOT similar to the mean of the original sample being 22.
+
+```{r}
+summary(barray)
+hist(barray)
+```
+
+b) Standard Deviation
+```{r}
+sd(x)/sqrt(100)
+sd(barray)
+```
+
+##Exponential distribution. Size 200
+
+1. Generate original sample from a normal distribution. Size 200
+
+```{r}
+x <- rexp(200, 1)
+x
+```
+
+2. Define length for bootstrap sample.
+```{r}
+blength <- 1000
+blength
+```
+
+3. Create array for bootstrap sample. Notice it is first empty.
+```{r}
+barray <- numeric(blength)
+barray
+```
+
+4. Generate bootstrap sample data. Calculate each bootstrap sample mean and store in bootstrap array.
+```{r}
+for(i in 1:blength) {
+barray[i] <- mean(sample(x, 200, replace=TRUE))
+}
+barray
+```
+
+5. Demonstrate the Central Limit Theorem:
+a) Mean:
+We observe the mean of the bootstrap is NOT similar to the mean of the original sample being 22.
+
+```{r}
+summary(barray)
+hist(barray)
+```
+
+b) Standard Deviation
+
+```{r}
+sd(x)/sqrt(200)
+sd(barray)
+```
